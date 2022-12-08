@@ -34,7 +34,7 @@ snapno = hr5outs.loc[hr5outs['Redshift']==red,'Snapshot'].values[0]
 galaxies = pd.read_csv(galaxyfile,usecols=['ID'])
 
 
-with h5py.File(f"{output}HR5_galaxies.hdf5", "a") as fout:
+with h5py.File(f"{output}HR5_galaxies.hdf5", "w") as fout:
 
     # Open Galaxy find data files
     with open(f'{Fofd}GALFIND.DATA.{snapno:0>5}', mode='rb') as file: # b -> binary
@@ -141,37 +141,40 @@ with h5py.File(f"{output}HR5_galaxies.hdf5", "a") as fout:
                                     for dat in ['posstar','posdm','posgas','velstar',\
                                             'veldm','velgas','massstar','massdm','massgas','tgas']:
 
-                                        if f'{sline}/{dat}' in fout:
-                                                del f[f'{sline}/{dat}']
+                                        if f'{hline}/{sline}/{dat}' in fout:
+                                                del fout[f'{hline}/{sline}/{dat}']
 
                                     # write positions of stars in subhalo
-                                    fout.create_dataset(f'{sline}/posstar',data=posstar)
-                                    fout.create_dataset(f'{sline}/posdm',data=posdm)
-                                    fout.create_dataset(f'{sline}/posgas',data=posg)
+                                    fout.create_dataset(f'{hline}/{sline}/posstar',data=posstar)
+                                    fout.create_dataset(f'{hline}/{sline}/posdm',data=posdm)
+                                    fout.create_dataset(f'{hline}/{sline}/posgas',data=posg)
 
                                     # write positions of stars in subhalo
-                                    fout.create_dataset(f'{sline}/velstar',data=velstar)
-                                    fout.create_dataset(f'{sline}/veldm',data=veldm)
-                                    fout.create_dataset(f'{sline}/velgas',data=velg)
+                                    fout.create_dataset(f'{hline}/{sline}/velstar',data=velstar)
+                                    fout.create_dataset(f'{hline}/{sline}/veldm',data=veldm)
+                                    fout.create_dataset(f'{hline}/{sline}/velgas',data=velg)
                                         
                                     # Write mass
-                                    fout.create_dataset(f'{sline}/massstar',data=massstar)
-                                    fout.create_dataset(f'{sline}/massdm',data=massdm)
-                                    fout.create_dataset(f'{sline}/massgas',data=massg)
+                                    fout.create_dataset(f'{hline}/{sline}/massstar',data=massstar)
+                                    fout.create_dataset(f'{hline}/{sline}/massdm',data=massdm)
+                                    fout.create_dataset(f'{hline}/{sline}/massgas',data=massg)
 
 
                                     # write temperature
-                                    fout.create_dataset(f'{sline}/tgas',data=tempg)
-                                    gal = fout[f'{sline}']
+                                    fout.create_dataset(f'{hline}/{sline}/tgas',data=tempg)
+                                    
+                                    clus = fout[f'/{hline}/']
+                                    for par in ['nsub','nstar','nsink','ngas','mtot','mdm',\
+                                            'mgas','msink','mstar','pos','vel']:
+
+                                        clus.attrs[par] = thalo[par]
+
+                                    gal = fout[f'/{hline}/{sline}']
                                     for par in ['nstar','nsink','ngas','mtot','mdm',\
                                             'mgas','msink','mstar','pos','vel']:
                                             gal.attrs[par] = tsub[par]
-                                        
-                                    for par in ['nsub','nstar','nsink','ngas','mtot','mdm',\
-                                            'mgas','msink','mstar','pos','vel']:
-                                            parh = 'FOF_'+par
-                                            gal.attrs[parh] = thalo[par]
-
+                                    
+                                    
                                 
                                     sline = sline + 1
                                 
