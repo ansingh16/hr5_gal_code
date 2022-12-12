@@ -37,7 +37,7 @@ galaxies = pd.read_csv(galaxyfile,usecols=['ID'])
 with h5py.File(f"{output}HR5_galaxies.hdf5", "w") as fout:
 
     # Open Galaxy find data files
-    with open(f'{Fofd}GALFIND.DATA.{snapno:0>5}', mode='rb') as file: # b -> binary
+    with open(f'{Fofd}/FoF.{snapno:0>5}/GALFIND.DATA.{snapno:0>5}', mode='rb') as file: # b -> binary
 
         hline=0
         sline=0

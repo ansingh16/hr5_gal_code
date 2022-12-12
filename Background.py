@@ -38,7 +38,7 @@ galaxies = pd.read_csv(galaxyfile,usecols=['HostHaloID'])
 with h5py.File(f"{output}HR5_galaxies.hdf5", "a") as f:
 
     # Open Galaxy find data files
-    with open(f'{Fofd}background_ptl.{snapno:0>5}', mode='rb') as file: # b -> binary
+    with open(f'{Fofd}/FoF.{snapno:0>5}/background_ptl.{snapno:0>5}', mode='rb') as file: # b -> binary
 
         hline=0
         sline=0

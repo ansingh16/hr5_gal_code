@@ -5,6 +5,7 @@ This repository contains the code necessary for the analysis of Intra Cluster Li
 - **params.ini** : parameter file containg all the important paths and parameters necessary for running the codes.
 - **Galselect.py** : Code for selecting galaxies of interest. Currently , we select galaxies which have no neighbour within 200ckpc.
 - **Get_gal_data** : Code for extracting the galaxy data. Currently, position, velocity, mass and temperature (in case of gas particles) are extracted for each galaxy. 
+- **HR5_galaxy.ipynb** : Notebook containing example with working with HR5_mod module
 
 
 ## Parameters
