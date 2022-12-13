@@ -88,7 +88,7 @@ with h5py.File(f"{output}HR5_galaxies.hdf5", "w") as fout:
                                         massdm[j] = tdm['mass']
                                         
 
-
+                                    # Data you are intrested in
                                     posg = np.empty((tsub['ngas'],3))
                                     massg = np.empty(tsub['ngas'])
                                     velg = np.empty((tsub['ngas'],3))
@@ -104,6 +104,8 @@ with h5py.File(f"{output}HR5_galaxies.hdf5", "w") as fout:
                                         tgas={'pos':data4[0:3],'dx':data4[3],'vel':data4[4:7],'dum0':data4[7],'density':data4[8],'temp':data4[9],'metal':data4[10],'fe':data4[11],\
                                                 'h':data4[12],'o':data4[13],'level':data4[14],'mass':data4[15],'dum1':data4[16],'id':data4[17],'potential':data4[18],'f':data4[19:22]}
 
+                                        
+                                        # Fill the empty arrays
                                         posg[j,:] = np.array(tgas['pos']) 
                                         velg[j,:] = np.array(tgas['vel']) 
                                         massg[j] = tgas['mass']
@@ -143,7 +145,8 @@ with h5py.File(f"{output}HR5_galaxies.hdf5", "w") as fout:
 
                                         if f'{hline}/{sline}/{dat}' in fout:
                                                 del fout[f'{hline}/{sline}/{dat}']
-
+                                    
+                                    # Write the data from arrays to hdf5
                                     # write positions of stars in subhalo
                                     fout.create_dataset(f'{hline}/{sline}/posstar',data=posstar)
                                     fout.create_dataset(f'{hline}/{sline}/posdm',data=posdm)
