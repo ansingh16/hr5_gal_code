@@ -35,7 +35,8 @@ class Galaxy:
         self.galdm = {}
         self.galstar = {}
 
-
+    
+        
 
 
 class ICL:
